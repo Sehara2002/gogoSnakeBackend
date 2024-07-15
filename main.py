@@ -17,7 +17,7 @@ app.add_middleware(
     allow_methods=["*"],  # List of allowed HTTP methods
     allow_headers=["*"],  # List of allowed headers
 )
-loadcell_data = []
+loadcell_data = [False]
 @app.get("/loadcell/{data}")
 def getload(data: bool):
     print(f"Loadcell Data: {data}")
@@ -26,8 +26,6 @@ def getload(data: bool):
 
 @app.get("/sendLoadData")
 def sendLoad():
-    if not loadcell_data:
-        return {"load_Cell_data": None}
     print(f"data to be Sent {loadcell_data[len(loadcell_data)-1]}")
     return {"load_Cell_data":loadcell_data[len(loadcell_data)-1]}
 
