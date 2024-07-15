@@ -4,7 +4,9 @@ app = FastAPI()
 
 
 origins = [
-    "https://gogosnake.onrender.com", # Add more origins as needed
+    "https://gogosnake.onrender.com",
+    "http://localhost:3000"
+    # Add more origins as needed
 ]
 
 # Add the CORS middleware to your FastAPI app
