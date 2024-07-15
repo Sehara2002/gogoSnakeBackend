@@ -22,7 +22,7 @@ def getload(data: bool):
     loadcell_data.append(data)
     return {"LoadCellData": data}
 
-@app.post("/sendLoadData")
+@app.get("/sendLoadData")
 def sendLoad():
     print(f"data to be Sent {loadcell_data[len(loadcell_data)-1]}")
     return {"load_Cell_data":loadcell_data[len(loadcell_data)-1]}
