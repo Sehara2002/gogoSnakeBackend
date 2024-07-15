@@ -26,6 +26,8 @@ def getload(data: bool):
 
 @app.get("/sendLoadData")
 def sendLoad():
+    if not loadcell_data:
+        return {"load_Cell_data": None}
     print(f"data to be Sent {loadcell_data[len(loadcell_data)-1]}")
     return {"load_Cell_data":loadcell_data[len(loadcell_data)-1]}
 
