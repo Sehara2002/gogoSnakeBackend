@@ -4,7 +4,7 @@ app = FastAPI()
 
 
 origins = [
-    "http://192.168.43.126:3001", # Add more origins as needed
+    "https://gogosnake.onrender.com", # Add more origins as needed
 ]
 
 # Add the CORS middleware to your FastAPI app
