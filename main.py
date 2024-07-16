@@ -47,6 +47,7 @@ async def fetch_game_data(file: UploadFile):
     file_data = await file.read()
     data = json.loads(file_data)
     print(f"Data Received from Board: {data}")
+    return data
 
 @app.get("/game_data")
 def get_game_data():
