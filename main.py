@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+import json
 
 
 origins = [
@@ -18,6 +19,12 @@ app.add_middleware(
     allow_headers=["*"],  # List of allowed headers
 )
 loadcell_data = [False]
+game_data = {
+    "player01Score":0,
+    "player01Shooting":0,
+    "player02Score":0,
+    "player02Shooting":0
+}
 @app.get("/loadcell/{data}")
 def getload(data: bool):
     print(f"Loadcell Data: {data}")
@@ -34,3 +41,13 @@ def sendLoad():
 def loader():
     print("Hello World")
     return {"Message":"Hello World"}
+
+@app.post("/getGameData")
+async def fetch_game_data(file: UploadFile):
+    file_data = await file.read()
+    data = json.loads(file_data)
+    print(f"Data Received from Board: {data}")
+
+@app.get("/game_data")
+def get_game_data():
+    return {game_data}
