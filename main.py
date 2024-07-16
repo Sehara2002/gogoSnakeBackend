@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
-import json
-import requests as req
+
 
 
 origins = [
