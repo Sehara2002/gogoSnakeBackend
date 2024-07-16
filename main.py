@@ -2,8 +2,6 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
-
-
 origins = [
     "https://gogosnake.onrender.com",
     "http://localhost:3000"
@@ -19,12 +17,10 @@ app.add_middleware(
     allow_headers=["*"],  # List of allowed headers
 )
 loadcell_data = [False]
-game_data = {
-    "player01Score":0,
-    "player01Shooting":0,
-    "player02Score":0,
-    "player02Shooting":0
-}
+game_data = [{}]
+timeoutState = [False]
+crashedState = [False]
+runcommand = [False]
 @app.get("/loadcell/{data}")
 def getload(data: bool):
     print(f"Loadcell Data: {data}")
@@ -45,9 +41,48 @@ def loader():
 @app.post("/getGameData")
 async def fetch_game_data(request: Request):
     file_data = await request.json()
-    print(f"Data Received from Board: {file_data}")
+    #print(f"Data Received from Board: {file_data}")
+    game_data.append(file_data)
     return file_data
 
 @app.get("/game_data")
 def get_game_data():
-    return {game_data}
+    return game_data[len(game_data)-1]
+
+@app.get("/timeOutState/{state}")
+async def getFrontTimeout(state: bool):
+    print(f"Timeout state : {state}")
+    timeoutState.append(state)
+    return {"Message":"Data Received"}
+
+@app.get("/sendTimeOut")
+async def sendTimeOut():
+    lastState = timeoutState[len(timeoutState)-1]
+    print(lastState)
+    timeoutState.pop()
+    timeoutState.append(False)
+    return {"Timeout":lastState}
+
+@app.get("/gotCrashed/{data}")
+def gotCrashed(data: bool):
+    print("Line number 66",data)
+    crashedState.append(data)
+    return {"CrashedState":data}
+
+@app.get("/sendCrashed")
+def sendCrashed():
+    print("Crashed State: ",crashedState[len(crashedState)-1])
+    return {"crashedState":crashedState[len(crashedState)-1]}
+
+@app.get("/run/{state}")
+async def runCommand(state:bool):
+    runcommand.append(state)
+    print("Run Command",state)
+    return {"runCommand":state}
+
+@app.get("/runstate")
+async def runState():
+    lastcommnd = runcommand[len(runcommand)-1]
+    runcommand.append(False)
+    print("RunState",lastcommnd)
+    return {"RunState":lastcommnd}
