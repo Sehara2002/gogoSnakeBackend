@@ -43,8 +43,8 @@ def loader():
     return {"Message":"Hello World"}
 
 @app.post("/getGameData")
-def fetch_game_data(request: Request):
-    file_data = request.json()
+async def fetch_game_data(request: Request):
+    file_data = await request.json()
     print(f"Data Received from Board: {file_data}")
     return file_data
 
